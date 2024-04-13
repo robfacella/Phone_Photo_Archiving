@@ -50,8 +50,14 @@ def vCD(dir):
 def getFileList():
 	filenames = []
 	ftp.retrlines('NLST', filenames.append)
-	print ( "Items in List " + str(len(filenames)) )
+	print ( "Items in List to be Backed up: " + str(len(filenames)) )
 	return filenames
+def getBackupFileList():
+	filenames = []
+	filenames = os.listdir(path='.')
+	print ( "Items already in backup location: " + str(len(filenames)) )
+	return filenames
+
 verboseList()
 
 vCD("device")
@@ -65,19 +71,23 @@ filenames=getFileList()
 
 #for files in filenames:
 #	print ( files )
-print ( "now Just print files 0 and 1 ")
-print (filenames[0])
-print (filenames[1])
+#print ( "now Just print files 0 and 1 ")
+#print (filenames[0])
+#print (filenames[1])
 
 print ( "Local dir: " + os.getcwd() )
 #os.getcwd()
 os.chdir(backupLocation)
 print ( "Local dir: " + os.getcwd() )
+# Get Files already Stored
+bkupList=getBackupFileList()
+
+# List from Items in Host Location not already Named in Backup Location
+reducedList=[x for x in filenames if x not in bkupList]
+print ("Backing up " + str(len(reducedList)) + " items from phone, not already found on PC. " )
 
 # Single File Backup
 # Write file in binary mode
-with open(filenames[0], "wb") as file:
+with open(reducedList[0], "wb") as file:
     # Command for Downloading the file "RETR filename"
-    ftp.retrbinary(f"RETR {filenames[0]}", file.write)
-# Does not preserve Modified Timestamp
-# Also seems to Write EVERY time
+    ftp.retrbinary(f"RETR {reducedList[0]}", file.write)
