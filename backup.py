@@ -58,10 +58,16 @@ def getBackupFileList():
 	print ( "Items already in backup location: " + str(len(filenames)) )
 	return filenames
 
-verboseList()
+def downLFile(filename):
+	# Write file in binary mode
+	with open(filename, "wb") as file:
+		# Command for Downloading the file "RETR filename"
+		ftp.retrbinary(f"RETR {filename}", file.write)
 
-vCD("device")
-verboseList()
+#verboseList()
+## List HOME of Android
+#vCD("device")
+#verboseList()
 
 # Can move multiple Directories at a time.
 vCD("DCIM/Camera")
@@ -86,8 +92,9 @@ bkupList=getBackupFileList()
 reducedList=[x for x in filenames if x not in bkupList]
 print ("Backing up " + str(len(reducedList)) + " items from phone, not already found on PC. " )
 
-# Single File Backup
-# Write file in binary mode
-with open(reducedList[0], "wb") as file:
-    # Command for Downloading the file "RETR filename"
-    ftp.retrbinary(f"RETR {reducedList[0]}", file.write)
+# Loop and Backup whole of unique files within Phone DCIM Camera
+i=0
+for file in reducedList:
+	i=i+1
+	print ("Backing up ["+ str(i) +"]:" + file)
+	downLFile(file)
