@@ -8,7 +8,7 @@ port=7871
 # Default for FileManager+
 username='pc'
 # Set to Random, should read in as argument in future
-passwort = '830592'
+passwort = '974316'
 
 # Create an FTP object
 ftp = FTP()
@@ -38,7 +38,21 @@ def vCD(dir):
 	print ( 'PWD: ' + ftp.pwd() )
 	print (" ")
 
+# Get names of all files in Current Working Directory
+def getFileList():
+	filenames = []
+	ftp.retrlines('NLST', filenames.append)
+	return filenames
 verboseList()
 
 vCD("device")
 verboseList()
+
+# Can move multiple Directories at a time.
+vCD("DCIM/Camera")
+#verboseList()
+
+filenames=getFileList()
+
+for files in filenames:
+	print ( files )
