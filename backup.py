@@ -64,7 +64,6 @@ def downLFile(filename):
 		# Command for Downloading the file "RETR filename"
 		ftp.retrbinary(f"RETR {filename}", file.write)
 
-#verboseList()
 ## List HOME of Android
 #vCD("device")
 #verboseList()
@@ -73,16 +72,11 @@ def downLFile(filename):
 vCD("device/DCIM/Camera")
 #verboseList()
 
+# Get List of Filenames from the Location we are backing up; in this case /device/DCIM/Camera
 filenames=getFileList()
 
-#for files in filenames:
-#	print ( files )
-#print ( "now Just print files 0 and 1 ")
-#print (filenames[0])
-#print (filenames[1])
-
-print ( "Local dir: " + os.getcwd() )
-#os.getcwd()
+# Client Side working Directory
+#print ( "Local dir: " + os.getcwd() )
 os.chdir(backupLocation)
 print ( "Local dir: " + os.getcwd() )
 # Get Files already Stored
