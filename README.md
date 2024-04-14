@@ -10,3 +10,4 @@ Access from Network ->
 [*] Random Password
 [ ] Show Hidden Files
 
+Once Backed up, if the time stamps aren't an issue, you're free to clear out the Phone and the archive will remain and can be appended to later.
