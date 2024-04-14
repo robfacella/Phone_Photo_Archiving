@@ -10,7 +10,7 @@ port=7871
 # Default for FileManager+
 username='pc'
 # Set to Random, should read in as argument in future
-passwort = '398163'
+passwort = '746186'
 
 # Where on local File System you want to Backup the Phone to
 backupLocation="/media/rob/38B62D40724FA264/phone/PIXEL"
@@ -70,7 +70,7 @@ def downLFile(filename):
 #verboseList()
 
 # Can move multiple Directories at a time.
-vCD("DCIM/Camera")
+vCD("device/DCIM/Camera")
 #verboseList()
 
 filenames=getFileList()
