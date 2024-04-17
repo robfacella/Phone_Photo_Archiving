@@ -3,17 +3,31 @@ from ftplib import FTP
 
 import os
 
+# Read in Config
+file = open("Config.txt")
+config = file.readlines()
+file.close()
+#Split Config Items and Keep only :
+#  right of ( equals = sign )
+#  Without the Newline Character "\n"
+i=0
+#print ( "Connecting with these settings: " )
+for line in config:
+	config[i] = (line.split("=")[1]).rstrip()
+	# print ( config[i] )
+	i = i + 1
+
 # Going to be local to YOU
-phoneIP='192.168.1.152'
+phoneIP=config[2]
 # Probably Arbitrary
-port=7871
+port=int(config[3])
 # Default for FileManager+
-username='pc'
+username=config[4]
 # Set to Random, should read in as argument in future
-passwort = '746186'
+passwort = config[5]
 
 # Where on local File System you want to Backup the Phone to
-backupLocation="/media/rob/38B62D40724FA264/phone/PIXEL"
+backupLocation=config[0]
 
 # Create an FTP object
 ftp = FTP()
@@ -69,7 +83,7 @@ def downLFile(filename):
 #verboseList()
 
 # Can move multiple Directories at a time.
-vCD("device/DCIM/Camera")
+vCD(config[1])
 #verboseList()
 
 # Get List of Filenames from the Location we are backing up; in this case /device/DCIM/Camera

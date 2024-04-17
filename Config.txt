@@ -3,4 +3,4 @@ RemoteDir=device/DCIM/Camera
 ipAddr=192.168.1.152
 port=7871
 username=pc
-password=notThePassword
+password=706073
