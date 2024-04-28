@@ -17,16 +17,6 @@ for line in config:
 	config[i] = (line.split("=")[1]).rstrip()
 	# print ( config[i] )
 	i = i + 1
-'''
-if __name__ == "__main__":
-    print(f"Arguments count: {len(sys.argv)}")
-    for i, arg in enumerate(sys.argv):
-        print(f"Argument {i:>6}: {arg}")
-'''
-#print(f"Arguments count: {len(sys.argv)}")
-#for i, arg in enumerate(sys.argv):
-#	print(f"Argument {i:>6}: {arg}")
-
 
 # Going to be local to YOU
 phoneIP=config[2]
@@ -36,11 +26,13 @@ port=int(config[3])
 username=config[4]
 # Set to Random, should read in as argument in future
 passwort = config[5]
-# expected command line
-# py3 backup.py
-# OR
-# py3 backup.py password123
-# if a password is sent, use it as passwort
+''' expected command line:
+py3 backup.py
+ ( OR )
+py3 backup.py password123
+
+if a password is sent, use it as passwort
+'''
 if (len(sys.argv) == 2):
 	#print ("Passed a Password!!")
 	#print ( sys.argv[1] )
