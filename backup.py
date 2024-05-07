@@ -4,6 +4,10 @@ from ftplib import FTP
 import os
 # for args:
 import sys
+# Calc Run Time
+import time
+# starting time
+strtTime = time.time()
 # Read in Config
 file = open("Config.txt")
 config = file.readlines()
@@ -118,3 +122,7 @@ for file in reducedList:
 	i=i+1
 	print ("Backing up ["+ str(i) +"]:" + file)
 	downLFile(file)
+# time ran is TimeNow minus strtTime
+runTime = time.time() - strtTime
+runTime = round(runTime, 3)
+print ("Complete in ~ " + str(runTime) + " ~ seconds.")
