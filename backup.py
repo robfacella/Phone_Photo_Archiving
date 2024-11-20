@@ -9,6 +9,13 @@ import time
 # starting time
 strtTime = time.time()
 #######################################################
+global Client_Dir
+global FTP_Dir
+global FTP_IP
+global FTP_Port
+global FTP_User
+global FTP_Pass
+
 # Read in Config(s)
 def readFile(filename):
 	file = open(filename)
@@ -17,15 +24,15 @@ def readFile(filename):
 	return lines
 
 config = readFile("Config.txt")
-def wipeConfigVars():
+def WipeConfigVars():
 	# Clear Vars and/or instantiate.
 	# I should try to normalize Directory Language choice
-	global Client_Dir=""
-	global FTP_Dir=""
-	global FTP_IP=""
-	global FTP_Port=0
-	global FTP_User=""
-	global FTP_Pass=""
+	Client_Dir = str("")
+	FTP_Dir = ""
+	FTP_IP = ""
+	FTP_Port = 0
+	FTP_User = ""
+	FTP_Pass = ""
 
 ########################################################
 #  Split Config Items and Keep only :
@@ -42,16 +49,17 @@ for line in config:
 ########################################################
 ##############################################################
 # Where on local File System you want to Backup the Phone to
-backupLocation=config[0]
+Client_Dir=config[0]
 # Going to be local to YOU
-phoneIP=config[2]
+FTP_IP=config[2]
+FTP_Dir=config[1]
 # Probably Arbitrary
-port=int(config[3])
+FTP_Port=int(config[3])
 # Default for FileManager+
-username=config[4]
+FTP_User=config[4]
 ########################################################
 # Set to Random, should read in as argument in future
-passwort = config[5]
+FTP_Pass = config[5]
 ''' expected command line:
 py3 backup.py
  ( OR )
@@ -63,7 +71,7 @@ if a password is sent, use it as passwort
 if (len(sys.argv) == 2):
 	#print ("Passed a Password!!")
 	#print ( sys.argv[1] )
-	passwort = sys.argv[1]
+	FTP_Pass = sys.argv[1]
 
 ##############################################################
 # Create an FTP object
@@ -72,9 +80,9 @@ ftp = FTP()
 #ftp = FTP( host=phoneIP, user=username, passwd=passwort, acct='', timeout=None, source_address=None, *, encoding='utf-8' )
 
 # Connect to a HOST and PORT
-ftp.connect(phoneIP, port)
+ftp.connect(FTP_IP, FTP_Port)
 # Give Login Credentials
-ftp.login (user=username, passwd=passwort)
+ftp.login (user=FTP_User, passwd=FTP_Pass)
 # acct='', timeout=None, source_address=None, *, encoding='utf-8' )
 
 # Max Debug Mode
@@ -120,7 +128,7 @@ def downLFile(filename):
 #verboseList()
 
 # Can move multiple Directories at a time.
-vCD(config[1])
+vCD(FTP_Dir)
 #verboseList()
 
 # Get List of Filenames from the Location we are backing up; in this case /device/DCIM/Camera
@@ -128,7 +136,7 @@ filenames=getFileList()
 
 # Client Side working Directory
 #print ( "Local dir: " + os.getcwd() )
-os.chdir(backupLocation)
+os.chdir(Client_Dir)
 print ( "Local dir: " + os.getcwd() )
 # Get Files already Stored
 bkupList=getBackupFileList()
