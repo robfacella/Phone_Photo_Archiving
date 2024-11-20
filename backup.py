@@ -17,6 +17,16 @@ def readFile(filename):
 	return lines
 
 config = readFile("Config.txt")
+def wipeConfigVars():
+	# Clear Vars and/or instantiate.
+	# I should try to normalize Directory Language choice
+	'''global localDir=""
+	global remoteDir=""'''
+	global phoneIP=""
+	global port=0
+	global username=""
+	global password=""
+
 ########################################################
 #  Split Config Items and Keep only :
 #  right of ( equals = sign )
@@ -25,6 +35,7 @@ i=0
 #print ( "Connecting with these settings: " )
 for line in config:
 ########################################################
+	## Should Goto a Switchcase per line and Set Known Fields and/or clear them
 	config[i] = (line.split("=")[1]).rstrip()
 	# print ( config[i] )
 	i = i + 1
