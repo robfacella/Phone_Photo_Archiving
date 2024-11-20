@@ -27,12 +27,25 @@ config = readFile("Config.txt")
 def WipeConfigVars():
 	# Clear Vars and/or instantiate.
 	# I should try to normalize Directory Language choice
-	Client_Dir = str("")
-	FTP_Dir = ""
-	FTP_IP = ""
-	FTP_Port = 0
-	FTP_User = ""
-	FTP_Pass = ""
+	Set_Client_Dir( str("") )
+	Set_FTP_Dir( "" )
+	Set_FTP_IP( "" )
+	Set_FTP_Port( 0 )
+	Set_FTP_User( "" )
+	Set_FTP_Pass( "" )
+
+def Set_ClientDir(path):
+	Client_Dir = path
+def Set_FTP_Dir(path):
+	FTP_Dir = path
+def Set_FTP_IP(path):
+	FTP_IP = path
+def Set_FTP_Port(PortNumber):
+	FTP_Port = PortNumber
+def Set_FTP_User(seLlama):
+	FTP_User = seLlama
+def Set_FTP_Pass(passwort):
+	FTP_Pass = passwort
 
 ########################################################
 #  Split Config Items and Keep only :
