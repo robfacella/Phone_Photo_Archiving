@@ -8,26 +8,34 @@ import sys
 import time
 # starting time
 strtTime = time.time()
-# Read in Config
-file = open("Config.txt")
-config = file.readlines()
-file.close()
-#Split Config Items and Keep only :
+#######################################################
+# Read in Config(s)
+def readFile(filename):
+	file = open(filename)
+	lines = file.readlines()
+	file.close()
+	return lines
+
+config = readFile("Config.txt")
+########################################################
+#  Split Config Items and Keep only :
 #  right of ( equals = sign )
 #  Without the Newline Character "\n"
 i=0
 #print ( "Connecting with these settings: " )
 for line in config:
+########################################################
 	config[i] = (line.split("=")[1]).rstrip()
 	# print ( config[i] )
 	i = i + 1
-
+########################################################
 # Going to be local to YOU
 phoneIP=config[2]
 # Probably Arbitrary
 port=int(config[3])
 # Default for FileManager+
 username=config[4]
+########################################################
 # Set to Random, should read in as argument in future
 passwort = config[5]
 ''' expected command line:
@@ -41,10 +49,10 @@ if (len(sys.argv) == 2):
 	#print ("Passed a Password!!")
 	#print ( sys.argv[1] )
 	passwort = sys.argv[1]
-
+##############################################################
 # Where on local File System you want to Backup the Phone to
 backupLocation=config[0]
-
+##############################################################
 # Create an FTP object
 ftp = FTP()
 #ftp = FTP( phoneIP+':'+ port )
