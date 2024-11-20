@@ -20,12 +20,12 @@ config = readFile("Config.txt")
 def wipeConfigVars():
 	# Clear Vars and/or instantiate.
 	# I should try to normalize Directory Language choice
-	'''global localDir=""
-	global remoteDir=""'''
-	global phoneIP=""
-	global port=0
-	global username=""
-	global password=""
+	global Client_Dir=""
+	global FTP_Dir=""
+	global FTP_IP=""
+	global FTP_Port=0
+	global FTP_User=""
+	global FTP_Pass=""
 
 ########################################################
 #  Split Config Items and Keep only :
