@@ -29,6 +29,9 @@ for line in config:
 	# print ( config[i] )
 	i = i + 1
 ########################################################
+##############################################################
+# Where on local File System you want to Backup the Phone to
+backupLocation=config[0]
 # Going to be local to YOU
 phoneIP=config[2]
 # Probably Arbitrary
@@ -45,13 +48,12 @@ py3 backup.py password123
 
 if a password is sent, use it as passwort
 '''
+# If not argv[1] and not in Config, should be prompting on CLI
 if (len(sys.argv) == 2):
 	#print ("Passed a Password!!")
 	#print ( sys.argv[1] )
 	passwort = sys.argv[1]
-##############################################################
-# Where on local File System you want to Backup the Phone to
-backupLocation=config[0]
+
 ##############################################################
 # Create an FTP object
 ftp = FTP()
