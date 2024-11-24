@@ -6,7 +6,7 @@ import os
 import sys
 # Calc Run Time
 import time
-# starting time
+# Script Start Time (more or less)
 strtTime = time.time()
 #######################################################
 global Client_Dir
@@ -30,10 +30,9 @@ def WipeConfigVars():
 	Set_Client_Dir( str("") )
 	Set_FTP_Dir( "" )
 	Set_FTP_IP( "" )
-	Set_FTP_Port( 0 )
+	Set_FTP_Port( 21 )
 	Set_FTP_User( "" )
 	Set_FTP_Pass( "" )
-###############################
 def Set_Client_Dir(path):
 	global Client_Dir
 	Client_Dir = path
@@ -132,7 +131,6 @@ def Main():
 	
 	# Max Debug Mode
 	#ftp.set_debuglevel(2)
-	
 	#ftp.getwelcome()
 	# There is None for Filemanager Plus
 	
