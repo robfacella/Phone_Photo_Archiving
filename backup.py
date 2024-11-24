@@ -16,6 +16,8 @@ global FTP_Port
 global FTP_User
 global FTP_Pass
 
+global ftp
+
 # Read in Config(s)
 def readFile(filename):
 	file = open(filename)
@@ -113,26 +115,52 @@ def Read_Conf_File(filename):
 		Set_FTP_Pass( sys.argv[1] )
 
 ##############################################################
-WipeConfigVars()
-Read_Conf_File("Config.txt")
-
-# Create an FTP object
-ftp = FTP()
-#ftp = FTP( phoneIP+':'+ port )
-#ftp = FTP( host=phoneIP, user=username, passwd=passwort, acct='', timeout=None, source_address=None, *, encoding='utf-8' )
-
-# Connect to a HOST and PORT
-ftp.connect(FTP_IP, FTP_Port)
-# Give Login Credentials
-ftp.login (user=FTP_User, passwd=FTP_Pass)
-# acct='', timeout=None, source_address=None, *, encoding='utf-8' )
-
-# Max Debug Mode
-#ftp.set_debuglevel(2)
-
-#ftp.getwelcome()
-# There is None for Filemanager Plus
-
+def Main():
+	global ftp
+	WipeConfigVars()
+	Read_Conf_File("Config.txt")
+	# Create an FTP object
+	ftp = FTP()
+	#ftp = FTP( phoneIP+':'+ port )
+	#ftp = FTP( host=phoneIP, user=username, passwd=passwort, acct='', timeout=None, source_address=None, *, encoding='utf-8' )
+	
+	# Connect to a HOST and PORT
+	ftp.connect(FTP_IP, FTP_Port)
+	# Give Login Credentials
+	ftp.login (user=FTP_User, passwd=FTP_Pass)
+	# acct='', timeout=None, source_address=None, *, encoding='utf-8' )
+	
+	# Max Debug Mode
+	#ftp.set_debuglevel(2)
+	
+	#ftp.getwelcome()
+	# There is None for Filemanager Plus
+	
+	# Can move multiple Directories at a time.
+	vCD(FTP_Dir)
+	#verboseList()
+	
+	# Get List of Filenames from the Location we are backing up; in this case /device/DCIM/Camera
+	filenames=getFileList()
+	
+	# Client Side working Directory
+	#print ( "Local dir: " + os.getcwd() )
+	os.chdir(Client_Dir)
+	print ( "Local dir: " + os.getcwd() )
+	# Get Files already Stored
+	bkupList=getBackupFileList()
+	
+	# List from Items in Host Location not already Named in Backup Location
+	reducedList=[x for x in filenames if x not in bkupList]
+	print ("Backing up " + str(len(reducedList)) + " items from phone, not already found on PC. " )
+	
+	# Loop and Backup whole of unique files within Phone DCIM Camera
+	i=0
+	for file in reducedList:
+		i=i+1
+		print ("Backing up ["+ str(i) +"]:" + file)
+		downLFile(file)
+#######################################################################
 # Print Working Directory and File details within
 def verboseList():
 	print ( 'PWD: ' + ftp.pwd() )
@@ -165,34 +193,11 @@ def downLFile(filename):
 		# Command for Downloading the file "RETR filename"
 		ftp.retrbinary(f"RETR {filename}", file.write)
 
+Main()
 ## List HOME of Android
 #vCD("device")
 #verboseList()
 
-# Can move multiple Directories at a time.
-vCD(FTP_Dir)
-#verboseList()
-
-# Get List of Filenames from the Location we are backing up; in this case /device/DCIM/Camera
-filenames=getFileList()
-
-# Client Side working Directory
-#print ( "Local dir: " + os.getcwd() )
-os.chdir(Client_Dir)
-print ( "Local dir: " + os.getcwd() )
-# Get Files already Stored
-bkupList=getBackupFileList()
-
-# List from Items in Host Location not already Named in Backup Location
-reducedList=[x for x in filenames if x not in bkupList]
-print ("Backing up " + str(len(reducedList)) + " items from phone, not already found on PC. " )
-
-# Loop and Backup whole of unique files within Phone DCIM Camera
-i=0
-for file in reducedList:
-	i=i+1
-	print ("Backing up ["+ str(i) +"]:" + file)
-	downLFile(file)
 ########################################################################
 # Time spent running is equal to TimeNow minus startTime
 runTime = time.time() - strtTime
