@@ -100,21 +100,21 @@ def Read_Conf_File(filename):
 ########################################################
 	# Set to Random, should read in as argument in future
 	Set_FTP_Pass( config[5] )
+	''' expected command line:
+	py3 backup.py
+	 ( OR )
+	py3 backup.py password123
+	if a password is sent, use it as passwort
+	'''
+	# If not argv[1] and not in Config, should be prompting on CLI
+	if (len(sys.argv) == 2):
+		#print ("Passed a Password!!")
+		#print ( sys.argv[1] )
+		Set_FTP_Pass( sys.argv[1] )
 
 ##############################################################
 WipeConfigVars()
 Read_Conf_File("Config.txt")
-''' expected command line:
-py3 backup.py
- ( OR )
-py3 backup.py password123
-if a password is sent, use it as passwort
-'''
-# If not argv[1] and not in Config, should be prompting on CLI
-if (len(sys.argv) == 2):
-	#print ("Passed a Password!!")
-	#print ( sys.argv[1] )
-	Set_FTP_Pass( sys.argv[1] )
 
 # Create an FTP object
 ftp = FTP()
