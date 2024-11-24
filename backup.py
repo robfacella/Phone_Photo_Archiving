@@ -35,24 +35,44 @@ def WipeConfigVars():
 def Set_Client_Dir(path):
 	global Client_Dir
 	Client_Dir = path
+def Get_Client_Dir():
+	global Client_Dir
+	return ( Client_Dir )
+
 def Set_FTP_Dir(path):
 	global FTP_Dir
 	FTP_Dir = path
+def Get_FTP_Dir():
+	global FTP_Dir
+	return ( FTP_Dir )
+
 def Set_FTP_IP(ipAddr):
 	global FTP_IP
 	FTP_IP = ipAddr
 def Get_FTP_IP():
 	global FTP_IP
 	return ( FTP_IP )
+
 def Set_FTP_Port(PortNumber):
 	global FTP_Port
 	FTP_Port = PortNumber
+def Get_FTP_Port():
+	global FTP_Port
+	return ( FTP_Port )
+
 def Set_FTP_User(seLlama):
 	global FTP_User
 	FTP_User = seLlama
+def Set_FTP_User():
+	global FTP_User
+	return ( FTP_User )
+
 def Set_FTP_Pass(passwort):
 	global FTP_Pass
 	FTP_Pass = passwort
+def Get_FTP_Pass():
+	global FTP_Pass
+	return ( FTP_Pass )
 ########################################################
 def Read_Conf_File(filename):
 	config = readFile( filename )
