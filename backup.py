@@ -63,7 +63,7 @@ def Get_FTP_Port():
 def Set_FTP_User(seLlama):
 	global FTP_User
 	FTP_User = seLlama
-def Set_FTP_User():
+def Get_FTP_User():
 	global FTP_User
 	return ( FTP_User )
 
