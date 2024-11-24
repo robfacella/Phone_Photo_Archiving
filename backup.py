@@ -23,70 +23,79 @@ def readFile(filename):
 	file.close()
 	return lines
 
-config = readFile("Config.txt")
 def WipeConfigVars():
 	# Clear Vars and/or instantiate.
-	# I should try to normalize Directory Language choice
 	Set_Client_Dir( str("") )
 	Set_FTP_Dir( "" )
 	Set_FTP_IP( "" )
 	Set_FTP_Port( 0 )
 	Set_FTP_User( "" )
 	Set_FTP_Pass( "" )
-
-def Set_ClientDir(path):
+###############################
+def Set_Client_Dir(path):
+	global Client_Dir
 	Client_Dir = path
 def Set_FTP_Dir(path):
+	global FTP_Dir
 	FTP_Dir = path
-def Set_FTP_IP(path):
-	FTP_IP = path
+def Set_FTP_IP(ipAddr):
+	global FTP_IP
+	FTP_IP = ipAddr
+def Get_FTP_IP():
+	global FTP_IP
+	return ( FTP_IP )
 def Set_FTP_Port(PortNumber):
+	global FTP_Port
 	FTP_Port = PortNumber
 def Set_FTP_User(seLlama):
+	global FTP_User
 	FTP_User = seLlama
 def Set_FTP_Pass(passwort):
+	global FTP_Pass
 	FTP_Pass = passwort
-
 ########################################################
+def Read_Conf_File(filename):
+	config = readFile( filename )
 #  Split Config Items and Keep only :
 #  right of ( equals = sign )
 #  Without the Newline Character "\n"
-i=0
+	i=0
 #print ( "Connecting with these settings: " )
-for line in config:
+	for line in config:
 ########################################################
-	## Should Goto a Switchcase per line and Set Known Fields and/or clear them
-	config[i] = (line.split("=")[1]).rstrip()
-	# print ( config[i] )
-	i = i + 1
-########################################################
+		## Should Goto a Switchcase per line and Set Known Fields and/or clear them
+		config[i] = (line.split("=")[1]).rstrip()
+		#print ( config[i] )
+		i = i + 1
 ##############################################################
-# Where on local File System you want to Backup the Phone to
-Client_Dir=config[0]
-# Going to be local to YOU
-FTP_IP=config[2]
-FTP_Dir=config[1]
-# Probably Arbitrary
-FTP_Port=int(config[3])
-# Default for FileManager+
-FTP_User=config[4]
+	# Where on local File System you want to Backup the Phone to
+	Set_Client_Dir( config[0] )
+	# Going to be local to YOU
+	Set_FTP_IP( config[2] )
+	Get_FTP_IP()
+	Set_FTP_Dir( config[1] )
+	Set_FTP_Port( int(config[3]) )
+	# Default for FileManager+
+	Set_FTP_User( config[4] )
 ########################################################
-# Set to Random, should read in as argument in future
-FTP_Pass = config[5]
+	# Set to Random, should read in as argument in future
+	Set_FTP_Pass( config[5] )
+
+##############################################################
+WipeConfigVars()
+Read_Conf_File("Config.txt")
 ''' expected command line:
 py3 backup.py
  ( OR )
 py3 backup.py password123
-
 if a password is sent, use it as passwort
 '''
 # If not argv[1] and not in Config, should be prompting on CLI
 if (len(sys.argv) == 2):
 	#print ("Passed a Password!!")
 	#print ( sys.argv[1] )
-	FTP_Pass = sys.argv[1]
+	Set_FTP_Pass( sys.argv[1] )
 
-##############################################################
 # Create an FTP object
 ftp = FTP()
 #ftp = FTP( phoneIP+':'+ port )
@@ -164,7 +173,8 @@ for file in reducedList:
 	i=i+1
 	print ("Backing up ["+ str(i) +"]:" + file)
 	downLFile(file)
-# time ran is TimeNow minus strtTime
+########################################################################
+# Time spent running is equal to TimeNow minus startTime
 runTime = time.time() - strtTime
 runTime = round(runTime, 3)
 print ("Complete in ~ " + str(runTime) + " ~ seconds.")
