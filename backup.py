@@ -83,24 +83,25 @@ def Read_Conf_File(filename):
 	i=0
 #print ( "Connecting with these settings: " )
 	for line in config:
-########################################################
-		## Should Goto a Switchcase per line and Set Known Fields and/or clear them
-		config[i] = (line.split("=")[1]).rstrip()
-		#print ( config[i] )
-		i = i + 1
-##############################################################
-	# Where on local File System you want to Backup the Phone to
-	Set_Client_Dir( config[0] )
-	# Going to be local to YOU
-	Set_FTP_IP( config[2] )
-	Get_FTP_IP()
-	Set_FTP_Dir( config[1] )
-	Set_FTP_Port( int(config[3]) )
-	# Default for FileManager+
-	Set_FTP_User( config[4] )
-########################################################
-	# Set to Random, should read in as argument in future
-	Set_FTP_Pass( config[5] )
+		line_R = (line.split("=")[1]).rstrip()
+		#rstrip for Left Arg should be unecessary
+		line_L = (line.split("=")[0])
+		match line_L:
+			case "LocalDir":
+				Set_Client_Dir( line_R )
+			case "RemoteDir":
+				Set_FTP_Dir( line_R )
+			case "ipAddr":
+				Set_FTP_IP( line_R )
+			case "port":
+				Set_FTP_Port( int( line_R ) )
+			case "username":
+				Set_FTP_User( line_R )
+			case "password":
+				Set_FTP_Pass( line_R )
+				print ( "DANGER! Password was set from plaintext file! " )
+			case _:
+				print ("'" + str(line_L) + "' does not match any current config Parameters")
 	''' expected command line:
 	py3 backup.py
 	 ( OR )
