@@ -24,7 +24,9 @@ def readFile(filename):
 	lines = file.readlines()
 	file.close()
 	return lines
-
+def Check_File_Exists(filename):
+	if os.path.isfile( filename ):
+		print("")
 def WipeConfigVars():
 	# Clear Vars and/or instantiate.
 	Set_Client_Dir( str("") )
@@ -171,19 +173,19 @@ def verboseList():
 def vCD(dir):
 	print ( "Moving to - " + dir )
 	ftp.cwd(dir)
-	print ( 'PWD: ' + ftp.pwd() )
+	print ( f'PWD: {ftp.pwd()}' )
 	print (" ")
 
 # Get names of all files in Current Working Directory
 def getFileList():
 	filenames = []
 	ftp.retrlines('NLST', filenames.append)
-	print ( "Items in List to be Backed up: " + str(len(filenames)) )
+	print ( f"Items in List to be Backed up: {len(filenames)}" )
 	return filenames
 def getBackupFileList():
 	filenames = []
 	filenames = os.listdir(path='.')
-	print ( "Items already in backup location: " + str(len(filenames)) )
+	print ( f"Items already in backup location: {len(filenames)}" )
 	return filenames
 
 def downLFile(filename):
@@ -201,4 +203,4 @@ Main()
 # Time spent running is equal to TimeNow minus startTime
 runTime = time.time() - strtTime
 runTime = round(runTime, 3)
-print ("Complete in ~ " + str(runTime) + " ~ seconds.")
+print (f"Complete in ~ {runTime} ~ seconds.")
