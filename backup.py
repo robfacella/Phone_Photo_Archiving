@@ -26,7 +26,10 @@ def readFile(filename):
 	return lines
 def Check_File_Exists(filename):
 	if os.path.isfile( filename ):
-		print("")
+		print(f"the file '{filename}' exists")
+		#continueMain
+	else:
+		print(f"the file '{filename}' does not exist")
 def WipeConfigVars():
 	# Clear Vars and/or instantiate.
 	Set_Client_Dir( str("") )
@@ -120,7 +123,9 @@ def Read_Conf_File(filename):
 def Main():
 	global ftp
 	WipeConfigVars()
-	Read_Conf_File("Config.txt")
+	confFileName="Config.txt"
+	Check_File_Exists( confFileName )
+	Read_Conf_File( confFileName)
 	# Create an FTP object
 	ftp = FTP()
 	#ftp = FTP( phoneIP+':'+ port )
@@ -147,31 +152,31 @@ def Main():
 	# Client Side working Directory
 	#print ( "Local dir: " + os.getcwd() )
 	os.chdir(Client_Dir)
-	print ( "Local dir: " + os.getcwd() )
+	print ( f"Local dir: {os.getcwd()}" )
 	# Get Files already Stored
 	bkupList=getBackupFileList()
 	
 	# List from Items in Host Location not already Named in Backup Location
 	reducedList=[x for x in filenames if x not in bkupList]
-	print ("Backing up " + str(len(reducedList)) + " items from phone, not already found on PC. " )
+	print (f"Backing up {len(reducedList)} items from phone, not already found on PC." )
 	
 	# Loop and Backup whole of unique files within Phone DCIM Camera
 	i=0
 	for file in reducedList:
 		i=i+1
-		print ("Backing up ["+ str(i) +"]:" + file)
+		print (f"Backing up [{i}]:{file}")
 		downLFile(file)
 #######################################################################
 # Print Working Directory and File details within
 def verboseList():
-	print ( 'PWD: ' + ftp.pwd() )
+	print ( f'PWD: {ftp.pwd()}' )
 	print ("retrlines('LIST')")
 	ftp.retrlines('LIST')
 	print ( " " )
 
 # CD and Print new Working Dir
 def vCD(dir):
-	print ( "Moving to - " + dir )
+	print ( f"Moving to - {dir}" )
 	ftp.cwd(dir)
 	print ( f'PWD: {ftp.pwd()}' )
 	print (" ")
