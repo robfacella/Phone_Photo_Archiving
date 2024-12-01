@@ -27,9 +27,10 @@ def readFile(filename):
 def Check_File_Exists(filename):
 	if os.path.isfile( filename ):
 		print(f"the file '{filename}' exists")
-		#continueMain
+		return ( True )
 	else:
 		print(f"the file '{filename}' does not exist")
+		return ( False)
 def WipeConfigVars():
 	# Clear Vars and/or instantiate.
 	Set_Client_Dir( str("") )
