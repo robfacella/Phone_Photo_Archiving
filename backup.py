@@ -125,8 +125,17 @@ def Main():
 	global ftp
 	WipeConfigVars()
 	confFileName="Config.txt"
-	Check_File_Exists( confFileName )
-	Read_Conf_File( confFileName)
+
+	if ( Check_File_Exists( confFileName ) ):
+		Read_Conf_File( confFileName)
+	else:
+		directory_path = "./MultiConfigs"
+		if os.path.isdir(directory_path):
+			print(f"The directory '{directory_path}' exists.")
+			print ( f"Loop Multi-Conf Dir, sort Alphabetically")
+		else:
+			print(f"The directory '{directory_path}' does not exist.")
+		
 	# Create an FTP object
 	ftp = FTP()
 	#ftp = FTP( phoneIP+':'+ port )
