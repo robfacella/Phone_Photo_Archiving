@@ -44,7 +44,7 @@ def WipeConfigVars():
 	Set_FTP_IP( "" )
 	Set_FTP_Port( 21 )
 	Set_FTP_User( "" )
-	Set_FTP_Pass( "" )
+	Set_FTP_Pass( None )
 def Set_Client_Dir(path):
 	global Client_Dir
 	Client_Dir = path
@@ -126,15 +126,25 @@ def Read_Conf_File(filename):
 	py3 backup.py password123
 	if a password is sent, use it as passwort
 	'''
-	# If not argv[1] and not in Config, should be prompting on CLI
-	if (len(sys.argv) == 2):
-		#print ("Passed a Password!!")
-		#print ( sys.argv[1] )
-		Set_FTP_Pass( sys.argv[1] )
 def Try_Connect_Config( ConfFile ):
 	global ftp
 	WipeConfigVars()
 	Read_Conf_File( ConfFile )
+	# After reading in Configuration, we should know if a Password is in the Text File or Not
+	if ( Get_FTP_Pass() != None ):
+		print ( f"Password in Conf File, using that..." )
+	else:
+		# If not argv[1] and not in Config, should be prompting on CLI
+		if (len(sys.argv) == 2):
+			print ( f"Trying command line args[1]'{sys.argv[1]}' as the password....")
+			#print ( sys.argv[1] )
+			Set_FTP_Pass( sys.argv[1] )
+		else:
+			print ( f"Should prompt for Password Here..." )
+			# userInput Set_FTP_Pass(..promptResult..)
+			Set_FTP_Pass( "userInput" )
+			# FTP_Lib crashes when the password is wrong
+			# ftplib.error_perm: 530 Login incorrect
 	# Create an FTP object
 	ftp = FTP()
 	#ftp = FTP( phoneIP+':'+ port )
@@ -179,6 +189,7 @@ def Try_Multi_Conf(MultiPath):
 				Try_Connect_Config( file.lstrip("./") )
 			else:
 				print( f"'{rFile}' has ceased to exist, your guess is as good as mine")
+		print (f" ")
 ##############################################################
 def Main():
 	Set_Runtime_Dir()
