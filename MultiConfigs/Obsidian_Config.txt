@@ -3,4 +3,3 @@ RemoteDir=device/Documents/Main
 ipAddr=192.168.1.153
 port=7871
 username=pc
-password=500729
