@@ -26,10 +26,10 @@ def readFile(filename):
 	return lines
 def Check_File_Exists(filename):
 	if os.path.isfile( filename ):
-		print(f"the file '{filename}' exists")
+		#print(f"The file '{filename}' exists.")
 		return ( True )
 	else:
-		print(f"the file '{filename}' does not exist")
+		#print(f"The file '{filename}' does not exist")
 		return ( False)
 def WipeConfigVars():
 	# Clear Vars and/or instantiate.
@@ -119,63 +119,58 @@ def Read_Conf_File(filename):
 		#print ("Passed a Password!!")
 		#print ( sys.argv[1] )
 		Set_FTP_Pass( sys.argv[1] )
-
-##############################################################
-def Main():
+def Try_Connect_Config( ConfFile ):
 	global ftp
 	WipeConfigVars()
-	confFileName="Config.txt"
-
-	if ( Check_File_Exists( confFileName ) ):
-		Read_Conf_File( confFileName)
-	else:
-		directory_path = "./MultiConfigs"
-		if os.path.isdir(directory_path):
-			print(f"The directory '{directory_path}' exists.")
-			print ( f"Loop Multi-Conf Dir, sort Alphabetically")
-		else:
-			print(f"The directory '{directory_path}' does not exist.")
-		
+	Read_Conf_File( ConfFile )
 	# Create an FTP object
 	ftp = FTP()
 	#ftp = FTP( phoneIP+':'+ port )
 	#ftp = FTP( host=phoneIP, user=username, passwd=passwort, acct='', timeout=None, source_address=None, *, encoding='utf-8' )
-	
 	# Connect to a HOST and PORT
 	ftp.connect(FTP_IP, FTP_Port)
 	# Give Login Credentials
 	ftp.login (user=FTP_User, passwd=FTP_Pass)
-	# acct='', timeout=None, source_address=None, *, encoding='utf-8' )
-	
-	# Max Debug Mode
-	#ftp.set_debuglevel(2)
-	#ftp.getwelcome()
-	# There is None for Filemanager Plus
-	
-	# Can move multiple Directories at a time.
+	# acct='', timeout=None, source_address=None, *, encoding='utf-8' ) ''' Max Debug Mode#ftp.set_debuglevel(2)#ftp.getwelcome()#There is None for Filemanager Plus''' # Can move multiple Directories at a time.
 	vCD(FTP_Dir)
 	#verboseList()
-	
 	# Get List of Filenames from the Location we are backing up; in this case /device/DCIM/Camera
 	filenames=getFileList()
-	
-	# Client Side working Directory
-	#print ( "Local dir: " + os.getcwd() )
+	# Client Side working Directory #print ( "Local dir: " + os.getcwd() )
 	os.chdir(Client_Dir)
 	print ( f"Local dir: {os.getcwd()}" )
 	# Get Files already Stored
 	bkupList=getBackupFileList()
-	
 	# List from Items in Host Location not already Named in Backup Location
 	reducedList=[x for x in filenames if x not in bkupList]
 	print (f"Backing up {len(reducedList)} items from phone, not already found on PC." )
-	
 	# Loop and Backup whole of unique files within Phone DCIM Camera
 	i=0
 	for file in reducedList:
 		i=i+1
 		print (f"Backing up [{i}]:{file}")
 		downLFile(file)
+
+def Try_Multi_Conf(MultiPath):
+	print ( f"Loop Multi-Conf Directory for '*.txt' files, sorting Alphabetically")
+	#for ("*.txt" in directory_path):
+	#	Try_Connect_Config( '*.txt' )
+
+##############################################################
+def Main():
+	confFileName="Config.txt"
+
+	if ( Check_File_Exists( confFileName ) ):
+		Try_Connect_Config( confFileName )
+	else:
+		directory_path = "./MultiConfigs"
+		if os.path.isdir(directory_path):
+			print (f"The directory '{directory_path}' exists.")
+			Try_Multi_Conf(directory_path)
+		else:
+			print (f"The directory '{directory_path}' does not exist.")
+			print ( 'Would you like to create it now? [ Y / N ]' )
+
 #######################################################################
 # Print Working Directory and File details within
 def verboseList():

@@ -1,5 +1,0 @@
-LocalDir=/media/rob/38B62D40724FA264/phone/PIXEL
-RemoteDir=device/DCIM/Camera
-ipAddr=192.168.1.153
-port=7871
-username=pc
