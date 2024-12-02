@@ -19,6 +19,11 @@ global FTP_Pass
 
 global ftp
 
+def ToDo():
+	print ("Password Input Styling")
+	print ("args[2] as override all")
+	print ("if Null enter Password Prompt")
+	print ("RandPass dictionary key system..\n\n")
 # Read in Config(s)
 def readFile(filename):
 	file = open(filename)
@@ -177,6 +182,7 @@ def Try_Multi_Conf(MultiPath):
 ##############################################################
 def Main():
 	Set_Runtime_Dir()
+	ToDo()
 	confFileName="Config.txt"
 
 	if ( Check_File_Exists( confFileName ) ):
