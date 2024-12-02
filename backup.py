@@ -8,6 +8,7 @@ import sys
 import time
 # Script Start Time (more or less)
 strtTime = time.time()
+global Runtime_Dir
 #######################################################
 global Client_Dir
 global FTP_Dir
@@ -45,7 +46,13 @@ def Set_Client_Dir(path):
 def Get_Client_Dir():
 	global Client_Dir
 	return ( Client_Dir )
-
+def Set_Runtime_Dir():
+	global Runtime_Dir
+	# Only Runs at Startup
+	Runtime_Dir = os.getcwd()
+def Return_to_Runtime():
+	global Runtime_Dir
+	os.chdir( Runtime_Dir )
 def Set_FTP_Dir(path):
 	global FTP_Dir
 	FTP_Dir = path
@@ -150,14 +157,26 @@ def Try_Connect_Config( ConfFile ):
 		i=i+1
 		print (f"Backing up [{i}]:{file}")
 		downLFile(file)
-
+	ftp.quit()
 def Try_Multi_Conf(MultiPath):
 	print ( f"Loop Multi-Conf Directory for '*.txt' files, sorting Alphabetically")
-	#for ("*.txt" in directory_path):
-	#	Try_Connect_Config( '*.txt' )
-
+	ConfList = []
+	for root, dirs, files in os.walk(MultiPath):
+		for file in files:
+			ConfList.append(os.path.join(root, file))
+	for file in ConfList:
+		Return_to_Runtime()
+		fileExt = os.path.splitext(file)[1].lower()
+		if ( (fileExt == ".txt") or (fileExt == ".conf") ):
+			rFile = file.lstrip("./")
+			print ( rFile )
+			if ( Check_File_Exists( rFile) ):
+				Try_Connect_Config( file.lstrip("./") )
+			else:
+				print( f"'{rFile}' has ceased to exist, your guess is as good as mine")
 ##############################################################
 def Main():
+	Set_Runtime_Dir()
 	confFileName="Config.txt"
 
 	if ( Check_File_Exists( confFileName ) ):
