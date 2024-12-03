@@ -79,7 +79,6 @@ def Set_FTP_Pass(passwort):
 def Get_FTP_Pass():
 	global FTP_Pass
 	return ( FTP_Pass )
-########################################################
 def Read_Conf_File(filename): # Scan Config File for Matching Parameters
 	config = readFile( filename )
 	for line in config:
@@ -109,12 +108,10 @@ def Try_Connect_Config( ConfFile ):
 	if ( Get_FTP_Pass() != None ):
 		print ( f"Password '{Get_FTP_Pass()}' in Conf File, using that..." )
 	else:
-		# If not argv[1] and not in Config, should be prompting on CLI
 		if (len(sys.argv) == 2):
 			print ( f"Trying command line args[1]'{sys.argv[1]}' as the password....")
 			Set_FTP_Pass( sys.argv[1] )
-		else:
-			# Prompt user for manual string password entry.
+		else: # Prompt user for manual string password entry.
 			userInput = input("Enter a password for this server:\n")
 			Set_FTP_Pass( userInput )
 			# FTP_Lib crashes when the password is wrong
@@ -215,12 +212,7 @@ def downLFile(filename):
 		ftp.retrbinary(f"RETR {filename}", file.write)
 
 Main()
-## List HOME of Android
-#vCD("device")
-#verboseList()
-
-########################################################################
+## List HOME of Android #vCD("device") #verboseList() #########################################################
 # Time spent running is equal to TimeNow minus startTime
 runTime = time.time() - strtTime
-runTime = round(runTime, 3)
-print (f"Complete in ~ {runTime} ~ seconds.")
+print (f"Complete in ~ {round(runTime, 3)} ~ seconds.")
