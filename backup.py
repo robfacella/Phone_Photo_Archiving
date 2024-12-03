@@ -30,14 +30,11 @@ def readFile(filename):
 	file.close()
 	return lines
 def Check_File_Exists(filename):
-	if os.path.isfile( filename ):
-		#print(f"The file '{filename}' exists.")
+	if os.path.isfile( filename ): #print(f"The file '{filename}' exists.")
 		return ( True )
-	else:
-		#print(f"The file '{filename}' does not exist")
+	else: #print(f"The file '{filename}' does not exist")
 		return ( False)
-def WipeConfigVars():
-	# Clear Vars and/or instantiate.
+def WipeConfigVars(): # Clear Vars and/or instantiate.
 	Set_Client_Dir( str("") )
 	Set_FTP_Dir( "" )
 	Set_FTP_IP( "" )
@@ -50,9 +47,8 @@ def Set_Client_Dir(path):
 def Get_Client_Dir():
 	global Client_Dir
 	return ( Client_Dir )
-def Set_Runtime_Dir():
+def Set_Runtime_Dir(): # Only run this nearto Script Startup
 	global Runtime_Dir
-	# Only Runs at Startup
 	Runtime_Dir = os.getcwd()
 def Return_to_Runtime():
 	global Runtime_Dir
@@ -92,13 +88,8 @@ def Get_FTP_Pass():
 	global FTP_Pass
 	return ( FTP_Pass )
 ########################################################
-def Read_Conf_File(filename):
+def Read_Conf_File(filename): # Scan Config File for Matching Parameters
 	config = readFile( filename )
-#  Split Config Items and Keep only :
-#  right of ( equals = sign )
-#  Without the Newline Character "\n"
-	i=0
-#print ( "Connecting with these settings: " )
 	for line in config:
 		line_R = (line.split("=")[1]).rstrip()
 		#rstrip for Left Arg should be unecessary
@@ -119,20 +110,13 @@ def Read_Conf_File(filename):
 				print ( "DANGER! Password was set from plaintext file! " )
 			case _:
 				print ("'" + str(line_L) + "' does not match any current config Parameters")
-	''' expected command line:
-	py3 backup.py
-	 ( OR )
-	py3 backup.py password123
-	if a password is sent, use it as passwort
-	'''
 def Try_Connect_Config( ConfFile ):
 	global ftp
-	WipeConfigVars()
+	WipeConfigVars() # For Sanity, always Wipe Prior to Read-In
 	Read_Conf_File( ConfFile )
-	# After reading in Configuration, we should know if a Password is in the Text File or Not
 	print (f"Attempting to connect to {Get_FTP_User()}@{Get_FTP_IP()}....")
 	if ( Get_FTP_Pass() != None ):
-		print ( f"Password in Conf File, using that..." )
+		print ( f"Password '{Get_FTP_Pass()}' in Conf File, using that..." )
 	else:
 		# If not argv[1] and not in Config, should be prompting on CLI
 		if (len(sys.argv) == 2):
@@ -157,7 +141,7 @@ def Try_Connect_Config( ConfFile ):
 	#verboseList()
 	# Get List of Filenames from the Location we are backing up; in this case /device/DCIM/Camera
 	filenames=getFileList()
-	# Client Side working Directory #print ( "Local dir: " + os.getcwd() )
+	# Client Side working Directory #print ( f"Local dir: {os.getcwd()}" )
 	os.chdir(Client_Dir)
 	print ( f"Local dir: {os.getcwd()}" )
 	# Get Files already Stored
@@ -179,7 +163,7 @@ def Try_Multi_Conf(MultiPath):
 		for file in files:
 			ConfList.append(os.path.join(root, file))
 	for file in ConfList:
-		Return_to_Runtime()
+		Return_to_Runtime() # Sanity, always do prior to Iterating on another Config. it's a Lodestone reference point during Teleportation
 		fileExt = os.path.splitext(file)[1].lower()
 		if ( (fileExt == ".txt") or (fileExt == ".conf") ):
 			rFile = file.lstrip("./")
