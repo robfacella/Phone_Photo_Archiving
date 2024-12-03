@@ -6,25 +6,21 @@ import os
 import sys
 # Calc Run Time
 import time
-# Script Start Time (more or less)
-strtTime = time.time()
+strtTime = time.time() # Start Time (+/-)
 global Runtime_Dir
-#######################################################
 global Client_Dir
 global FTP_Dir
 global FTP_IP
 global FTP_Port
 global FTP_User
 global FTP_Pass
-
 global ftp
 
 def ToDo():
 	print (f"To-Do:")
 	print (f"- Sort Config List Alphabetically prior to Iteration")
 	print (f"- RandPass dictionary key system..\n\n")
-# Read in Config(s)
-def readFile(filename):
+def readFile(filename): # Return File Lines
 	file = open(filename)
 	lines = file.readlines()
 	file.close()
@@ -59,28 +55,24 @@ def Set_FTP_Dir(path):
 def Get_FTP_Dir():
 	global FTP_Dir
 	return ( FTP_Dir )
-
 def Set_FTP_IP(ipAddr):
 	global FTP_IP
 	FTP_IP = ipAddr
 def Get_FTP_IP():
 	global FTP_IP
 	return ( FTP_IP )
-
 def Set_FTP_Port(PortNumber):
 	global FTP_Port
 	FTP_Port = PortNumber
 def Get_FTP_Port():
 	global FTP_Port
 	return ( FTP_Port )
-
 def Set_FTP_User(seLlama):
 	global FTP_User
 	FTP_User = seLlama
 def Get_FTP_User():
 	global FTP_User
 	return ( FTP_User )
-
 def Set_FTP_Pass(passwort):
 	global FTP_Pass
 	FTP_Pass = passwort
@@ -92,8 +84,7 @@ def Read_Conf_File(filename): # Scan Config File for Matching Parameters
 	config = readFile( filename )
 	for line in config:
 		line_R = (line.split("=")[1]).rstrip()
-		#rstrip for Left Arg should be unecessary
-		line_L = (line.split("=")[0])
+		line_L = (line.split("=")[0]) # However; [no]strip should be unnecessary for the LeftHand Arg
 		match line_L:
 			case "LocalDir":
 				Set_Client_Dir( line_R )
@@ -109,7 +100,7 @@ def Read_Conf_File(filename): # Scan Config File for Matching Parameters
 				Set_FTP_Pass( line_R )
 				print ( "DANGER! Password was set from plaintext file! " )
 			case _:
-				print ("'" + str(line_L) + "' does not match any current config Parameters")
+				print (f"'{line.rstrip()}' -- Does not match any current config for our Parameters, just letting you know!")
 def Try_Connect_Config( ConfFile ):
 	global ftp
 	WipeConfigVars() # For Sanity, always Wipe Prior to Read-In
