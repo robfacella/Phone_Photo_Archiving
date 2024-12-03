@@ -20,10 +20,9 @@ global FTP_Pass
 global ftp
 
 def ToDo():
-	print ("Password Input Styling")
-	print ("args[2] as override all")
-	print ("if Null enter Password Prompt")
-	print ("RandPass dictionary key system..\n\n")
+	print (f"To-Do:")
+	print (f"- Sort Config List Alphabetically prior to Iteration")
+	print (f"- RandPass dictionary key system..\n\n")
 # Read in Config(s)
 def readFile(filename):
 	file = open(filename)
@@ -131,18 +130,18 @@ def Try_Connect_Config( ConfFile ):
 	WipeConfigVars()
 	Read_Conf_File( ConfFile )
 	# After reading in Configuration, we should know if a Password is in the Text File or Not
+	print (f"Attempting to connect to {Get_FTP_User()}@{Get_FTP_IP()}....")
 	if ( Get_FTP_Pass() != None ):
 		print ( f"Password in Conf File, using that..." )
 	else:
 		# If not argv[1] and not in Config, should be prompting on CLI
 		if (len(sys.argv) == 2):
 			print ( f"Trying command line args[1]'{sys.argv[1]}' as the password....")
-			#print ( sys.argv[1] )
 			Set_FTP_Pass( sys.argv[1] )
 		else:
-			print ( f"Should prompt for Password Here..." )
-			# userInput Set_FTP_Pass(..promptResult..)
-			Set_FTP_Pass( "userInput" )
+			# Prompt user for manual string password entry.
+			userInput = input("Enter a password for this server:\n")
+			Set_FTP_Pass( userInput )
 			# FTP_Lib crashes when the password is wrong
 			# ftplib.error_perm: 530 Login incorrect
 	# Create an FTP object
