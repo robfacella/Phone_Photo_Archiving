@@ -7,6 +7,9 @@ def NameTimeStampParser(filename):
 	timeyWhimey= filename[4:22]
 	dddd=timeyWhimey[:8]
 	#YYYY-MM-DAY.... do i even want to import datetime at this rate?
+	year=dddd[:4]
+	month=dddd[4:6]
+	day=dddd[6:8]
 	dddd=date.fromisoformat(dddd)
 	tsts=timeyWhimey[9:]
 	hour=tsts[:2]
@@ -16,7 +19,7 @@ def NameTimeStampParser(filename):
 	print (f"{filename} was created at this time: {dddd} {hour}:{mins}:{secs}.{mili}")
 	# DateTime is kinda busted on loose timestamps, so i might just return all the vars..
 	# Photo Taken at 8:34pm Eastern Time showing as 013415467, -5 from UTC checks out
-	return
+	return (year, month, day, hour, mins, secs, mili)
 def OnlyMatch_PXL(filelist):
 	newList = []
 	for file in filelist :
@@ -33,7 +36,10 @@ def FilesInDir( directory ):
 def Main_Func():
 	TestDir = "/media/rob/38B62D40724FA264/phone/PIXEL"
 	SourceFiles = FilesInDir(TestDir)
+	years23=0
 	for file in OnlyMatch_PXL( SourceFiles ) :
-		NameTimeStampParser(file)
-
+		year, month, day, hour, mins, secs, mili = NameTimeStampParser(file)
+		if year == "2023" :
+			years23 = years23 + 1
+	print (f"{years23} of the files were from 2023")
 Main_Func()
