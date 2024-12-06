@@ -2,25 +2,21 @@
 import os
 from datetime import date, timezone
 import datetime
-#import pytz
 
 def NameTimeStampParser(filename):
 	timeyWhimey= filename[4:22]
 	dddd=timeyWhimey[:8]
+	#YYYY-MM-DAY.... do i even want to import datetime at this rate?
+	dddd=date.fromisoformat(dddd)
 	tsts=timeyWhimey[9:]
-	#ddts=dddd+tsts
-	#timezone = pytz.timezone('America/New_York')
-	#NYTime = (datetime.datetime.fromtimestamp(int(ddts), timezone.utc)).astimezone(timezone)
-
-	print (f"{filename} was created at this time: ")
-	print (f"    {timeyWhimey}")
-	#datetime()
-	print (f"{date.fromisoformat(dddd)}")
-	print (f"{tsts}")
-	#print ( f"{datetime.datetime.fromtimestamp(int(tsts), timezone.utc)}")
+	hour=tsts[:2]
+	mins=tsts[2:4]
+	secs=tsts[4:6]
+	mili=tsts[6:9]
+	print (f"{filename} was created at this time: {dddd} {hour}:{mins}:{secs}.{mili}")
+	# DateTime is kinda busted on loose timestamps, so i might just return all the vars..
 	# Photo Taken at 8:34pm Eastern Time showing as 013415467, -5 from UTC checks out
-	print (f"Hour: {tsts[:2]} - Min: {tsts[2:4]} - Sec: {tsts[4:6]} - milS: {tsts[6:9]}")
-	#print ( f"{NYTime}")
+	return
 def OnlyMatch_PXL(filelist):
 	newList = []
 	for file in filelist :
