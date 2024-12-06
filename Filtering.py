@@ -2,7 +2,21 @@
 import os
 from datetime import date, timezone
 import datetime
+from enum import Enum
 
+class Month(Enum):
+	JAN = 1
+	FEB = 2
+	MAR = 3
+	APR = 4
+	MAY = 5
+	JUN = 6
+	JUL = 7
+	AUG = 8
+	SEP = 9
+	OCT = 10
+	NOV = 11
+	DEC = 12
 def NameTimeStampParser(filename):
 	timeyWhimey= filename[4:22]
 	dddd=timeyWhimey[:8]
@@ -16,7 +30,7 @@ def NameTimeStampParser(filename):
 	mins=tsts[2:4]
 	secs=tsts[4:6]
 	mili=tsts[6:9]
-	print (f"{filename} was created at this time: {dddd} {hour}:{mins}:{secs}.{mili}")
+	#print (f"{filename} was created at this time: {dddd} {hour}:{mins}:{secs}.{mili}")
 	# DateTime is kinda busted on loose timestamps, so i might just return all the vars..
 	# Photo Taken at 8:34pm Eastern Time showing as 013415467, -5 from UTC checks out
 	return (year, month, day, hour, mins, secs, mili)
@@ -41,5 +55,6 @@ def Main_Func():
 		year, month, day, hour, mins, secs, mili = NameTimeStampParser(file)
 		if year == "2023" :
 			years23 = years23 + 1
+			print (f"{Month(int(month)).name} {file}")
 	print (f"{years23} of the files were from 2023")
 Main_Func()
