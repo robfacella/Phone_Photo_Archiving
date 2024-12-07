@@ -93,8 +93,10 @@ def Main_Func():
 		print (f"{Year[0][1]} had {len(NestMonths[YearCount])} Months")
 		MonthCount = 0
 		for month in NestMonths[YearCount] :
-			print (f"{int(month[1][2])}")
-			#print (f"{Month(month[]).name}")
+			#print (f"{int(month[1][2])}")
+			theseDays = Group_by_Element( month, 3 )
+			NestDays.append(theseDays)
+			print (f"{Month(int(month[1][2])).name} had {len(theseDays)} days")
 			#print (f"{len(month)} month dirs")
 			MonthCount += 1
 		#theseDays = Group_by_Element ( month[1], 3 )'''
