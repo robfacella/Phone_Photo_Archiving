@@ -24,13 +24,13 @@ def NameTimeStampParser(filename):
 	year=dddd[:4]
 	month=dddd[4:6]
 	day=dddd[6:8]
-	dddd=date.fromisoformat(dddd)
+	#dddd=date.fromisoformat(dddd)
 	tsts=timeyWhimey[9:]
 	hour=tsts[:2]
 	mins=tsts[2:4]
 	secs=tsts[4:6]
 	mili=tsts[6:9]
-	#print (f"{filename} was created at this time: {dddd} {hour}:{mins}:{secs}.{mili}")
+	print (f"{filename} was created on [ {Month(int(month)).name} {day}, {year} ] at [ {hour}:{mins}:{secs}.{mili} ] (UTC)")
 	# DateTime is kinda busted on loose timestamps, so i might just return all the vars..
 	# Photo Taken at 8:34pm Eastern Time showing as 013415467, -5 from UTC checks out
 	return (year, month, day, hour, mins, secs, mili)
