@@ -34,30 +34,33 @@ def NameTimeStampParser(filename):
 	# DateTime is kinda busted on loose timestamps, so i might just return all the vars..
 	# Photo Taken at 8:34pm Eastern Time showing as 013415467, -5 from UTC checks out
 	return (year, month, day, hour, mins, secs, mili)
-def Group_by_Year (filelist):
-	uniqYearsFound = []
+def Get_VerboseFilelist(filelist):
 	verboseFilelist = []
 	for file in filelist :
 		year, month, day, hour, mins, secs, mili = NameTimeStampParser(file)
 		verboseFilelist.append([file, year, month, day, hour, mins, secs, mili])
-		if year not in uniqYearsFound :
-			uniqYearsFound.append(year)
+	return (verboseFilelist)
+def Group_by_Element (filelist, elementID):
+	uniqElements = []
+	for file in filelist :
+		if file[elementID] not in uniqElements :
+			uniqElements.append(file[elementID])
 	# Should Sort the List
-	print (f"Found files from these Years: {uniqYearsFound}")
+	print (f"Found files from these unique elements: {uniqElements}")
 	YearBook = []
-	for year in uniqYearsFound :
+	for year in uniqElements :
 		thisYear = []
-		for file in verboseFilelist :
-			if file[1] == year :
+		for file in filelist :
+			if file[elementID] == year :
 				thisYear.append(file)
 		YearBook.append(thisYear)
 	# Array Nesting is [Year][VerboseFile][ElementOfFile]
 	#print (f"From {YearBook[0][1][1]} There are {len(YearBook[0])} entries.")
 	i = 0
-	for year in uniqYearsFound:
+	for year in uniqElements:
 		print (f"From {year} There are {len(YearBook[i])} entries.")
 		i = i + 1
-
+	return ( YearBook )
 def OnlyMatch_PXL(filelist):
 	newList = []
 	for file in filelist :
@@ -74,7 +77,8 @@ def Main_Func():
 	TestDir = "/media/rob/38B62D40724FA264/phone/PIXEL"
 	SourceFiles = FilesInDir(TestDir)
 	TargetedFiles = OnlyMatch_PXL( SourceFiles )
-
-	Group_by_Year ( TargetedFiles )
+	VTFiles = Get_VerboseFilelist(TargetedFiles)
+	#Group by Year
+	Group_by_Element ( VTFiles, 1 )
 
 Main_Func()
