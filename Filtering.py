@@ -45,7 +45,7 @@ def Group_by_Element (filelist, elementID):
 	for file in filelist :
 		if file[elementID] not in uniqElements :
 			uniqElements.append(file[elementID])
-	# Should Sort the List
+	uniqElements.sort()
 	print (f"Found files from these unique elements: {uniqElements}")
 	YearBook = []
 	for year in uniqElements :
@@ -79,6 +79,20 @@ def Main_Func():
 	TargetedFiles = OnlyMatch_PXL( SourceFiles )
 	VTFiles = Get_VerboseFilelist(TargetedFiles)
 	#Group by Year
-	Group_by_Element ( VTFiles, 1 )
+	ByYear = Group_by_Element ( VTFiles, 1 )
+	NestMonths = []
+	#TotalYears = 0
+	for Year in ByYear :
+
+		thisMonths = Group_by_Element ( Year, 2 )
+		NestMonths.append(thisMonths)
+		#TotalYears = TotalYears + 1
+	NestDays = []
+	for year in NestMonths :
+		print (f"{len(year)} year dirs")
+		for month in year :
+			print (f"{len(month)} month dirs")
+		#theseDays = Group_by_Element ( month[1], 3 )
+	print (f"{len(NestMonths[1])} nestMonths is - Master Yoda, probably")
 
 Main_Func()
