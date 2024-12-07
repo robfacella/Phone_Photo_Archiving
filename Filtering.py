@@ -30,10 +30,34 @@ def NameTimeStampParser(filename):
 	mins=tsts[2:4]
 	secs=tsts[4:6]
 	mili=tsts[6:9]
-	print (f"{filename} was created on [ {Month(int(month)).name} {day}, {year} ] at [ {hour}:{mins}:{secs}.{mili} ] (UTC)")
+	#print (f"{filename} was created on [ {Month(int(month)).name} {day}, {year} ] at [ {hour}:{mins}:{secs}.{mili} ] (UTC)")
 	# DateTime is kinda busted on loose timestamps, so i might just return all the vars..
 	# Photo Taken at 8:34pm Eastern Time showing as 013415467, -5 from UTC checks out
 	return (year, month, day, hour, mins, secs, mili)
+def Group_by_Year (filelist):
+	uniqYearsFound = []
+	verboseFilelist = []
+	for file in filelist :
+		year, month, day, hour, mins, secs, mili = NameTimeStampParser(file)
+		verboseFilelist.append([file, year, month, day, hour, mins, secs, mili])
+		if year not in uniqYearsFound :
+			uniqYearsFound.append(year)
+	# Should Sort the List
+	print (f"Found files from these Years: {uniqYearsFound}")
+	YearBook = []
+	for year in uniqYearsFound :
+		thisYear = []
+		for file in verboseFilelist :
+			if file[1] == year :
+				thisYear.append(file)
+		YearBook.append(thisYear)
+	# Array Nesting is [Year][VerboseFile][ElementOfFile]
+	#print (f"From {YearBook[0][1][1]} There are {len(YearBook[0])} entries.")
+	i = 0
+	for year in uniqYearsFound:
+		print (f"From {year} There are {len(YearBook[i])} entries.")
+		i = i + 1
+
 def OnlyMatch_PXL(filelist):
 	newList = []
 	for file in filelist :
@@ -41,7 +65,6 @@ def OnlyMatch_PXL(filelist):
 			newList.append(file)
 	print (f"There are likely only [{len(newList)}] files/folders which match the PXL_TIMECODE nameing schema")
 	return (newList)
-
 def FilesInDir( directory ):
 	files = []
 	files = os.listdir( directory )
@@ -50,11 +73,8 @@ def FilesInDir( directory ):
 def Main_Func():
 	TestDir = "/media/rob/38B62D40724FA264/phone/PIXEL"
 	SourceFiles = FilesInDir(TestDir)
-	years23=0
-	for file in OnlyMatch_PXL( SourceFiles ) :
-		year, month, day, hour, mins, secs, mili = NameTimeStampParser(file)
-		if year == "2023" :
-			years23 = years23 + 1
-			print (f"{Month(int(month)).name} {file}")
-	print (f"{years23} of the files were from 2023")
+	TargetedFiles = OnlyMatch_PXL( SourceFiles )
+
+	Group_by_Year ( TargetedFiles )
+
 Main_Func()
