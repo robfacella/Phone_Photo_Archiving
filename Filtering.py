@@ -88,11 +88,17 @@ def Main_Func():
 		NestMonths.append(thisMonths)
 		#TotalYears = TotalYears + 1
 	NestDays = []
-	for year in NestMonths :
-		print (f"{len(year)} year dirs")
-		for month in year :
-			print (f"{len(month)} month dirs")
-		#theseDays = Group_by_Element ( month[1], 3 )
+	YearCount = 0
+	for Year in ByYear :
+		print (f"{Year[0][1]} had {len(NestMonths[YearCount])} Months")
+		MonthCount = 0
+		for month in NestMonths[YearCount] :
+			print (f"{int(month[1][2])}")
+			#print (f"{Month(month[]).name}")
+			#print (f"{len(month)} month dirs")
+			MonthCount += 1
+		#theseDays = Group_by_Element ( month[1], 3 )'''
+		YearCount += 1
 	print (f"{len(NestMonths[1])} nestMonths is - Master Yoda, probably")
 
 Main_Func()
