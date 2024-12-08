@@ -98,8 +98,16 @@ def Main_Func():
 			NestDays.append(theseDays)
 			print (f"{Month(int(month[1][2])).name} had {len(theseDays)} days")
 			#print (f"{len(month)} month dirs")
+
+			for thisDay in theseDays:
+				# Day of the Month
+				print ( f"{thisDay[0][3]}" )
+				for file in thisDay :
+					# file is verbose, [0] is filename
+					print (f"{file[0]}")
+				print ( f"" )
 			MonthCount += 1
-		#theseDays = Group_by_Element ( month[1], 3 )'''
+		#theseDays = Group_by_Element ( month[1], 3 )
 		YearCount += 1
 	print (f"{len(NestMonths[1])} nestMonths is - Master Yoda, probably")
 
