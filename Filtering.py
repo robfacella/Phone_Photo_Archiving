@@ -24,17 +24,16 @@ def NameTimeStampParser(filename):
 	year=dddd[:4]
 	month=dddd[4:6]
 	day=dddd[6:8]
-	#dddd=date.fromisoformat(dddd)
 	tsts=timeyWhimey[9:]
 	hour=tsts[:2]
 	mins=tsts[2:4]
 	secs=tsts[4:6]
 	mili=tsts[6:9]
 	#print (f"{filename} was created on [ {Month(int(month)).name} {day}, {year} ] at [ {hour}:{mins}:{secs}.{mili} ] (UTC)")
-	# DateTime is kinda busted on loose timestamps, so i might just return all the vars..
 	# Photo Taken at 8:34pm Eastern Time showing as 013415467, -5 from UTC checks out
 	return (year, month, day, hour, mins, secs, mili)
 def Get_VerboseFilelist(filelist):
+	# FILE, YEAR, MONTH, DAY, HOUR, MINUTE, SECOND, MILISECOND
 	verboseFilelist = []
 	for file in filelist :
 		year, month, day, hour, mins, secs, mili = NameTimeStampParser(file)
@@ -46,7 +45,8 @@ def Group_by_Element (filelist, elementID):
 		if file[elementID] not in uniqElements :
 			uniqElements.append(file[elementID])
 	uniqElements.sort()
-	print (f"Found files from these unique elements: {uniqElements}")
+	# Debug Message
+	#print (f"Found files from these unique elements: {uniqElements}")
 	YearBook = []
 	for year in uniqElements :
 		thisYear = []
@@ -58,8 +58,9 @@ def Group_by_Element (filelist, elementID):
 	#print (f"From {YearBook[0][1][1]} There are {len(YearBook[0])} entries.")
 	i = 0
 	for year in uniqElements:
-		print (f"From {year} There are {len(YearBook[i])} entries.")
-		i = i + 1
+		# Debug Iteration
+		#print (f"From {year} There are {len(YearBook[i])} entries.")
+		i += 1
 	return ( YearBook )
 def OnlyMatch_PXL(filelist):
 	newList = []
@@ -78,30 +79,31 @@ def Main_Func():
 	SourceFiles = FilesInDir(TestDir)
 	TargetedFiles = OnlyMatch_PXL( SourceFiles )
 	VTFiles = Get_VerboseFilelist(TargetedFiles)
-	#Group by Year
+	# Group by Year
 	ByYear = Group_by_Element ( VTFiles, 1 )
+	# Group by Month, ByYear
 	NestMonths = []
-	#TotalYears = 0
 	for Year in ByYear :
-
 		thisMonths = Group_by_Element ( Year, 2 )
 		NestMonths.append(thisMonths)
-		#TotalYears = TotalYears + 1
+	# Group by Day, ByMonth, ByYear
 	NestDays = []
 	YearCount = 0
 	for Year in ByYear :
-		print (f"{Year[0][1]} had {len(NestMonths[YearCount])} Months")
+		disYear = Year[0][1]
+		print (f"{disYear} had files found from {len(NestMonths[YearCount])} Months.")
 		MonthCount = 0
 		for month in NestMonths[YearCount] :
-			#print (f"{int(month[1][2])}")
+			disMonth = int(month[1][2])
 			theseDays = Group_by_Element( month, 3 )
 			NestDays.append(theseDays)
-			print (f"{Month(int(month[1][2])).name} had {len(theseDays)} days")
+			print (f"{Month(disMonth).name} had files found from {len(theseDays)} days:")
 			#print (f"{len(month)} month dirs")
 
 			for thisDay in theseDays:
-				# Day of the Month
-				print ( f"{thisDay[0][3]}" )
+				disDay = thisDay[0][3]
+				print ( f"{disDay}:" )
+				print ( f"mkdir -P SomeBackupDir/{disYear}/{disMonth}/{disDay}/")
 				for file in thisDay :
 					# file is verbose, [0] is filename
 					print (f"{file[0]}")
@@ -109,6 +111,6 @@ def Main_Func():
 			MonthCount += 1
 		#theseDays = Group_by_Element ( month[1], 3 )
 		YearCount += 1
-	print (f"{len(NestMonths[1])} nestMonths is - Master Yoda, probably")
+	#print (f"{len(NestMonths[1])} nestMonths is - Master Yoda, probably")
 
 Main_Func()
