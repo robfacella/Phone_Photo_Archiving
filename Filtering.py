@@ -109,7 +109,8 @@ def Main_Func():
 			for thisDay in theseDays:
 				disDay = thisDay[0][3]
 				print ( f"{disDay}:" )
-				backupLocTree = f"/media/rob/38B62D40724FA264/phone/SomeBackupDir/{disYear}/{disMonth}/{disDay}/"
+				#backupLocTree = f"/media/rob/38B62D40724FA264/phone/SomeBackupDir/{disYear}/{disMonth}/{disDay}/"
+				backupLocTree = f"/media/rob/WinXP/SomeBackupDir/{disYear}/{disMonth}/{disDay}/"
 				print ( f"{backupLocTree}")
 				os.makedirs(backupLocTree, exist_ok=True)
 				for file in thisDay :
