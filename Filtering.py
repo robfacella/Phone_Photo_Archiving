@@ -103,7 +103,9 @@ def Main_Func():
 			for thisDay in theseDays:
 				disDay = thisDay[0][3]
 				print ( f"{disDay}:" )
-				print ( f"mkdir -P SomeBackupDir/{disYear}/{disMonth}/{disDay}/")
+				backupLocTree = f"SomeBackupDir/{disYear}/{disMonth}/{disDay}/"
+				print ( f"{backupLocTree}")
+				os.makedirs(backupLocTree, exist_ok=True)
 				for file in thisDay :
 					# file is verbose, [0] is filename
 					print (f"{file[0]}")
