@@ -4,6 +4,9 @@ from datetime import date, timezone
 import datetime
 from enum import Enum
 import shutil
+import time
+
+StartTime = time.time()
 
 class Month(Enum):
 	JAN = 1
@@ -125,3 +128,6 @@ def Main_Func():
 		YearCount += 1
 	#print (f"{len(NestMonths[1])} nestMonths is - Master Yoda, probably")
 Main_Func()
+
+RunTime = time.time() - StartTime
+print (f"Finished in ~ {round(RunTime, 3)} ~ Seconds.")
