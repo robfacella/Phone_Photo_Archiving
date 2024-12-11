@@ -3,6 +3,7 @@ import os
 from datetime import date, timezone
 import datetime
 from enum import Enum
+import shutil
 
 class Month(Enum):
 	JAN = 1
@@ -74,8 +75,10 @@ def FilesInDir( directory ):
 	files = os.listdir( directory )
 	print (f"There are {len(files)} files/folders in {directory}")
 	return files
+def CopyToTree(filename, src, dst):
+	print (f"Copying '{filename}' from '{src}' to '{dst}'.")
 def Main_Func():
-	TestDir = "/media/rob/38B62D40724FA264/phone/PIXEL"
+	TestDir = "/media/rob/38B62D40724FA264/phone/PIXEL/"
 	SourceFiles = FilesInDir(TestDir)
 	TargetedFiles = OnlyMatch_PXL( SourceFiles )
 	VTFiles = Get_VerboseFilelist(TargetedFiles)
@@ -89,6 +92,7 @@ def Main_Func():
 	# Group by Day, ByMonth, ByYear
 	NestDays = []
 	YearCount = 0
+	justFileName = ""
 	for Year in ByYear :
 		disYear = Year[0][1]
 		print (f"{disYear} had files found from {len(NestMonths[YearCount])} Months.")
@@ -103,16 +107,18 @@ def Main_Func():
 			for thisDay in theseDays:
 				disDay = thisDay[0][3]
 				print ( f"{disDay}:" )
-				backupLocTree = f"SomeBackupDir/{disYear}/{disMonth}/{disDay}/"
+				backupLocTree = f"/media/rob/38B62D40724FA264/phone/SomeBackupDir/{disYear}/{disMonth}/{disDay}/"
 				print ( f"{backupLocTree}")
 				os.makedirs(backupLocTree, exist_ok=True)
 				for file in thisDay :
 					# file is verbose, [0] is filename
 					print (f"{file[0]}")
+					justFileName = file[0]
 				print ( f"" )
 			MonthCount += 1
 		#theseDays = Group_by_Element ( month[1], 3 )
 		YearCount += 1
 	#print (f"{len(NestMonths[1])} nestMonths is - Master Yoda, probably")
+	CopyToTree(justFileName, TestDir, backupLocTree)
 
 Main_Func()
