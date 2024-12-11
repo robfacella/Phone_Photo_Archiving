@@ -93,6 +93,7 @@ def Main_Func():
 	# Group by Day, ByMonth, ByYear
 	NestDays = []
 	YearCount = 0
+	TaskCounter = 0
 	justFileName = ""
 	for Year in ByYear :
 		disYear = Year[0][1]
@@ -113,9 +114,10 @@ def Main_Func():
 				os.makedirs(backupLocTree, exist_ok=True)
 				for file in thisDay :
 					# file is verbose, [0] is filename
-					print (f"{file[0]}")
+					print (f"{TaskCounter} of {len(VTFiles)} -- {file[0]}")
 					justFileName = file[0]
 					CopyToTree(justFileName, TestDir, backupLocTree)
+					TaskCounter += 1
 				print ( f"" )
 			MonthCount += 1
 		#theseDays = Group_by_Element ( month[1], 3 )
