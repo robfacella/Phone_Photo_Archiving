@@ -115,11 +115,10 @@ def Main_Func():
 					# file is verbose, [0] is filename
 					print (f"{file[0]}")
 					justFileName = file[0]
+					CopyToTree(justFileName, TestDir, backupLocTree)
 				print ( f"" )
 			MonthCount += 1
 		#theseDays = Group_by_Element ( month[1], 3 )
 		YearCount += 1
 	#print (f"{len(NestMonths[1])} nestMonths is - Master Yoda, probably")
-	CopyToTree(justFileName, TestDir, backupLocTree)
-
 Main_Func()
