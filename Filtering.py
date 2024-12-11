@@ -77,6 +77,7 @@ def FilesInDir( directory ):
 	return files
 def CopyToTree(filename, src, dst):
 	print (f"Copying '{filename}' from '{src}' to '{dst}'.")
+	shutil.copy2(f"{src}{filename}", f"{dst}{filename}")
 def Main_Func():
 	TestDir = "/media/rob/38B62D40724FA264/phone/PIXEL/"
 	SourceFiles = FilesInDir(TestDir)
