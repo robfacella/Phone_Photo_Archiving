@@ -4,6 +4,7 @@ import glob
 import os
 import datetime
 from datetime import timedelta
+import subprocess
 '''
 TimeStamp Correction is possible in theory.
 
@@ -12,6 +13,16 @@ TimeStamp is baked into the Filename Down to the MiliSecond
 
 DirToCorrect="/media/rob/WinXP/SomeBackupDir/2024/12/11/"
 DirToCorrect="/media/rob/WinXP/SomeBackupDir/2024/"
+
+def Run_ShellScript( RunScript ):
+	subprocess.run(RunScript, shell=True)
+def Run_Subprocess(Command):
+	CommandWords = Command.split(" ")
+	if len(CommandWords) > 0:
+		result = subprocess.run(CommandWords, capture_output=True, text=True)
+	else:
+		result = subprocess.run(Command, capture_output=True, text=True)
+	print (result.stdout)
 
 def Get_PXL_DateTime(File):
 	print (f"{File}")
@@ -102,6 +113,15 @@ def Main():
 		FileDateUTC, FileTimeUTC = Get_PXL_DateTime( File )
 		Change_Timezone(TimeZone, FileDateUTC, FileTimeUTC)
 
+	Run_Subprocess("ls")
+	Run_Subprocess("ls -lah")
+	#Run_Subprocess("ls")
+	Run_Subprocess("ls -lah /media/rob")
+	Run_Subprocess("ls -lah MultiConfigs/")
+	## Can Probably Run TimeSwapper as a Python-Driven Bash Script?
+	## That'd require ROOT Though, so it might be time to move to the dev board..
+	Run_ShellScript( "./TestPyShell.sh" )
+	print ("py3-- Do buffers collide?\n Seems like NO")
 '''	for Month in Months:
 		DayDirs.append( Get_Files(Month) )
 	DayDirs.sort()
