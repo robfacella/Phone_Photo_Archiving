@@ -1,7 +1,7 @@
 #!/bin/python3
 #import os
 import glob
-
+import os
 '''
 TimeStamp Correction is possible in theory.
 
@@ -50,6 +50,10 @@ def Main():
 	## Returned Root Folder but not the 299 Sub Directories... That said, all files are accounted for.
 	#DirectoryEndNodes = FileByType( TreeWalk, '/' )
 	#print (f"{len(DirectoryEndNodes)} were Directories Nested")
+
+	# Not Recursive
+	subfolders = [ f.path for f in os.scandir(DirToCorrect) if f.is_dir() ]
+	print (f"{DirToCorrect} had {len(subfolders)} sub-directories.")
 
 	DayDirs = []
 '''	for Month in Months:
