@@ -15,7 +15,14 @@ DirToCorrect="/media/rob/WinXP/SomeBackupDir/2024/12/11/"
 DirToCorrect="/media/rob/WinXP/SomeBackupDir/2024/"
 
 def Run_ShellScript( RunScript ):
-	subprocess.run(RunScript, shell=True)
+	ScriptWords = RunScript.split(" ")
+	print (f"{ScriptWords}")
+	if len(ScriptWords) > 1:
+		print ( "With Args:" )
+		subprocess.run(ScriptWords, shell=True)
+	else:
+		print ( "Without Args:" )
+		subprocess.run(RunScript, shell=True)
 def Run_Subprocess(Command):
 	CommandWords = Command.split(" ")
 	if len(CommandWords) > 0:
@@ -121,6 +128,7 @@ def Main():
 	## Can Probably Run TimeSwapper as a Python-Driven Bash Script?
 	## That'd require ROOT Though, so it might be time to move to the dev board..
 	Run_ShellScript( "./TestPyShell.sh" )
+	Run_ShellScript( "./TestPyShell.sh arg1 arg2" )
 	print ("py3-- Do buffers collide?\n Seems like NO")
 '''	for Month in Months:
 		DayDirs.append( Get_Files(Month) )
