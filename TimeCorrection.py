@@ -41,11 +41,18 @@ def Change_Timezone(Timezone, UTCDate, UTCTime):
 		Hour = Hour + 24
 		# And remove a day. Datetime Timedelta automatically handles months&years too!
 		dt = dt - timedelta(1)
+		#print ( f'{dt}' )
 	Hour = str(Hour)
 	if len(Hour) == 1 :
 		Hour = '0' + Hour
 	print (f"{Hour}")
-	print (f'{dt}')
+	dt = str(dt).split(' ')[0]
+	#print (f'{dt}')
+	dt = dt.split('-')
+	Year = dt[0]
+	Month = dt[1]
+	Day = dt[2]
+	print (f'{Year}, {Month}/{Day}')
 def Get_Files(Directory):
 	#print (f"{Directory}")
 	files = []
