@@ -2,6 +2,8 @@
 #import os
 import glob
 import os
+import datetime
+from datetime import timedelta
 '''
 TimeStamp Correction is possible in theory.
 
@@ -33,14 +35,17 @@ def Split_DateTimes(TheDate, TheTime):
 def Change_Timezone(Timezone, UTCDate, UTCTime):
 	print (f'Adjusting {UTCDate}:{UTCTime}UTC by {Timezone}')
 	Year, Month, Day, Hour, Min, Sec, Mili = Split_DateTimes(UTCDate, UTCTime)
+	dt = datetime.datetime(int(Year), int(Month), int(Day))
 	Hour = int(Hour)+Timezone
 	if Hour < 0 :
 		Hour = Hour + 24
-		# And remove a day
+		# And remove a day. Datetime Timedelta automatically handles months&years too!
+		dt = dt - timedelta(1)
 	Hour = str(Hour)
 	if len(Hour) == 1 :
 		Hour = '0' + Hour
 	print (f"{Hour}")
+	print (f'{dt}')
 def Get_Files(Directory):
 	#print (f"{Directory}")
 	files = []
