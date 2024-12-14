@@ -11,6 +11,33 @@ TimeStamp is baked into the Filename Down to the MiliSecond
 DirToCorrect="/media/rob/WinXP/SomeBackupDir/2024/12/11/"
 DirToCorrect="/media/rob/WinXP/SomeBackupDir/2024/"
 
+def Get_PXL_DateTime(File):
+	print (f"{File}")
+	noPath = File.split('/')
+	print (f"{noPath[-1]}")
+	undrSpl = noPath[-1].split('_')
+	fDate = undrSpl[1]
+	fTime = undrSpl[2].split('.')[0]
+	print (f"{fDate} {fTime} UTC")
+	return ( fDate, fTime )
+def Split_DateTimes(TheDate, TheTime):
+	year = TheDate[:4]
+	mont = TheDate[4:6]
+	day = TheDate[6:8]
+	hr = TheTime[:2]
+	mn = TheTime[2:4]
+	sx = TheTime[4:6]
+	ml = TheTime[6:9]
+	#print (f'{hr}:{mn}:{sx}.{ml}')
+	return (year, mont, day, hr, mn, sx, ml)
+def Change_Timezone(Timezone, UTCDate, UTCTime):
+	print (f'Adjusting {UTCDate}:{UTCTime}UTC by {Timezone}')
+	Year, Month, Day, Hour, Min, Sec, Mili = Split_DateTimes(UTCDate, UTCTime)
+	Hour = int(Hour)+Timezone
+	if Hour < 0 :
+		Hour = Hour + 24
+		# And remove a day
+	print (f"{Hour}")
 def Get_Files(Directory):
 	#print (f"{Directory}")
 	files = []
@@ -36,6 +63,7 @@ def FileByType( Filelist, Type ):
 	#print ( len(TrimmedList) )
 	return ( TrimmedList )
 def Main():
+	TimeZone = -5
 	TreeWalk = Get_Files(DirToCorrect)
 	TreeWalk.sort()
 	#print (f"{Months}")
@@ -55,7 +83,10 @@ def Main():
 	subfolders = [ f.path for f in os.scandir(DirToCorrect) if f.is_dir() ]
 	print (f"{DirToCorrect} had {len(subfolders)} sub-directories.")
 
-	DayDirs = []
+	for File in JpegFiles :
+		FileDateUTC, FileTimeUTC = Get_PXL_DateTime( File )
+		Change_Timezone(TimeZone, FileDateUTC, FileTimeUTC)
+
 '''	for Month in Months:
 		DayDirs.append( Get_Files(Month) )
 	DayDirs.sort()
