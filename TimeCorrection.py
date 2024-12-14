@@ -20,14 +20,20 @@ def Get_Files(Directory):
 def FileByType( Filelist, Type ):
 	TrimmedList = []
 	ext = len(Type)
-	print (f"{ext}")
+	#print (f"{ext}")
 	for file in Filelist:
 		fileExt = f"{file[-(ext):]}"
-		print (f"{fileExt} vs {Type}")
+		#print (f"{fileExt} vs {Type}")
 		if ( str(fileExt) == str(Type) ) :
-			print ( True )
-			TrimmedList.append(file)
-	print (f"{ext}")
+			#print ( True )
+			#print ( f"Adding '{file}' to TrimmedList...")
+			TrimmedList.append( file )
+		#else:
+			#print ( False )
+			#print ( f"NOT Adding '{file}' to TrimmedList...")
+	#print (f"{ext}")
+	#print ( TrimmedList )
+	#print ( len(TrimmedList) )
 	return ( TrimmedList )
 def Main():
 	TreeWalk = Get_Files(DirToCorrect)
@@ -38,9 +44,13 @@ def Main():
 	JpegFiles = FileByType( TreeWalk, '.jpg' )
 	print (f"{len(JpegFiles)} were jpg files.")
 	Mp4Files = FileByType( TreeWalk, '.mp4' )
-	print (f"{len(JpegFiles)} were mp4 files.")
-#	MDFiles = FileByType( TreeWalk, '.md' )
-#	print (f"{len(JpegFiles)} were md files.")
+	print (f"{len(Mp4Files)} were mp4 files.")
+	MDFiles = FileByType( TreeWalk, '.md' )
+	print (f"{len(MDFiles)} were md files.")
+	## Returned Root Folder but not the 299 Sub Directories... That said, all files are accounted for.
+	#DirectoryEndNodes = FileByType( TreeWalk, '/' )
+	#print (f"{len(DirectoryEndNodes)} were Directories Nested")
+
 	DayDirs = []
 '''	for Month in Months:
 		DayDirs.append( Get_Files(Month) )
