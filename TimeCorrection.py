@@ -19,13 +19,14 @@ def Run_ShellScript( RunScript ):
 	print (f"{ScriptWords}")
 	if len(ScriptWords) > 1:
 		print ( "With Args:" )
-		subprocess.run(ScriptWords, shell=True)
+		subprocess.run(RunScript, shell=True)
 	else:
 		print ( "Without Args:" )
 		subprocess.run(RunScript, shell=True)
 def Run_Subprocess(Command):
 	CommandWords = Command.split(" ")
-	if len(CommandWords) > 0:
+	print (f"{CommandWords}")
+	if len(CommandWords) > 1:
 		result = subprocess.run(CommandWords, capture_output=True, text=True)
 	else:
 		result = subprocess.run(Command, capture_output=True, text=True)
@@ -127,9 +128,15 @@ def Main():
 	Run_Subprocess("ls -lah MultiConfigs/")
 	## Can Probably Run TimeSwapper as a Python-Driven Bash Script?
 	## That'd require ROOT Though, so it might be time to move to the dev board..
-	Run_ShellScript( "./TestPyShell.sh" )
-	Run_ShellScript( "./TestPyShell.sh arg1 arg2" )
-	print ("py3-- Do buffers collide?\n Seems like NO")
+	#Run_ShellScript( "./TestPyShell.sh" )
+	#Run_ShellScript( "./TestPyShell.sh arg1 arg2" )
+	Run_ShellScript( "./TestPyShell.sh /media/rob/ arg2" )
+	#print ("py3-- Do buffers collide?\n Seems like NO")
+	## Run a whoami
+	## Save output back to Python
+
+	#	if root
+	#	else
 '''	for Month in Months:
 		DayDirs.append( Get_Files(Month) )
 	DayDirs.sort()
