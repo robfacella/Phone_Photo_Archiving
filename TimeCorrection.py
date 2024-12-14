@@ -37,6 +37,9 @@ def Change_Timezone(Timezone, UTCDate, UTCTime):
 	if Hour < 0 :
 		Hour = Hour + 24
 		# And remove a day
+	Hour = str(Hour)
+	if len(Hour) == 1 :
+		Hour = '0' + Hour
 	print (f"{Hour}")
 def Get_Files(Directory):
 	#print (f"{Directory}")
