@@ -135,6 +135,9 @@ def Main():
 	## Run a whoami
 	## Save output back to Python
 
+	Run_ShellScript( f"./TestPyShell.sh {File} {FileDateUTC}{FileTimeUTC}UTC" )
+	# Just going to need to nest this in a per file loop
+
 	#	if root
 	#	else
 '''	for Month in Months:
