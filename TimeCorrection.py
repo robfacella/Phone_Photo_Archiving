@@ -5,6 +5,7 @@ import os
 import datetime
 from datetime import timedelta
 import subprocess
+import errno
 '''
 TimeStamp Correction is possible in theory.
 
@@ -13,6 +14,18 @@ TimeStamp is baked into the Filename Down to the MiliSecond
 
 DirToCorrect="/media/rob/WinXP/SomeBackupDir/2024/12/11/"
 DirToCorrect="/media/rob/WinXP/SomeBackupDir/2024/"
+
+def TimeWarp(Date, Time):
+	try:
+		# Set Clock
+		Run_Subprocess("ls /etc/fonts")
+		# Doesn't Crash out without root
+		Run_Subprocess("mkdir /etc/FooBar")
+		# Going to need to store and process for root/sudo
+		Run_Subprocess("whoami")
+	except IOError as e:
+		if e[0] == errno.EPERM:
+			sys.exit("Become ROOT first young Chronomancer.")
 
 def Run_ShellScript( RunScript ):
 	ScriptWords = RunScript.split(" ")
@@ -137,7 +150,7 @@ def Main():
 
 	Run_ShellScript( f"./TestPyShell.sh {File} {FileDateUTC}{FileTimeUTC}UTC" )
 	# Just going to need to nest this in a per file loop
-
+	TimeWarp(FileDateUTC, FileTimeUTC)
 	#	if root
 	#	else
 '''	for Month in Months:
