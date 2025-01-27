@@ -6,6 +6,7 @@ import datetime
 from datetime import timedelta
 import subprocess
 import errno
+import SpaceCadet
 '''
 TimeStamp Correction is possible in theory.
 
@@ -14,15 +15,16 @@ TimeStamp is baked into the Filename Down to the MiliSecond
 
 DirToCorrect="/media/rob/WinXP/SomeBackupDir/2024/12/11/"
 DirToCorrect="/media/rob/WinXP/SomeBackupDir/2024/"
+DirToCorrect="/media/kali/WinXP/SomeBackupDir/2024/"
 
 def TimeWarp(Date, Time):
 	try:
 		# Set Clock
-		Run_Subprocess("ls /etc/fonts")
+		SpaceCadet.RunSP("ls /etc/fonts")
 		# Doesn't Crash out without root
-		Run_Subprocess("mkdir /etc/FooBar")
+		SpaceCadet.RunSP("mkdir /etc/FooBar")
 		# Going to need to store and process for root/sudo
-		Run_Subprocess("whoami")
+		SpaceCadet.RunSP("whoami")
 	except IOError as e:
 		if e[0] == errno.EPERM:
 			sys.exit("Become ROOT first young Chronomancer.")
@@ -36,14 +38,6 @@ def Run_ShellScript( RunScript ):
 	else:
 		print ( "Without Args:" )
 		subprocess.run(RunScript, shell=True)
-def Run_Subprocess(Command):
-	CommandWords = Command.split(" ")
-	print (f"{CommandWords}")
-	if len(CommandWords) > 1:
-		result = subprocess.run(CommandWords, capture_output=True, text=True)
-	else:
-		result = subprocess.run(Command, capture_output=True, text=True)
-	print (result.stdout)
 
 def Get_PXL_DateTime(File):
 	print (f"{File}")
@@ -134,11 +128,10 @@ def Main():
 		FileDateUTC, FileTimeUTC = Get_PXL_DateTime( File )
 		Change_Timezone(TimeZone, FileDateUTC, FileTimeUTC)
 
-	Run_Subprocess("ls")
-	Run_Subprocess("ls -lah")
-	#Run_Subprocess("ls")
-	Run_Subprocess("ls -lah /media/rob")
-	Run_Subprocess("ls -lah MultiConfigs/")
+	SpaceCadet.RunSP("ls")
+	SpaceCadet.RunSP("ls -lah")
+	SpaceCadet.RunSP("ls -lah /media/rob")
+	SpaceCadet.RunSP("ls -lah MultiConfigs/")
 	## Can Probably Run TimeSwapper as a Python-Driven Bash Script?
 	## That'd require ROOT Though, so it might be time to move to the dev board..
 	#Run_ShellScript( "./TestPyShell.sh" )
